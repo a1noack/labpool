@@ -6,7 +6,6 @@ import io
 import mysql.connector
 import numpy as np
 import pandas as pd
-import random
 
 
 # Create a Flask app object
@@ -17,10 +16,10 @@ limiter = Limiter(
 )
 
 # Configure the app to connect to the MySQL database
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'hormone_levels'
+app.config['MYSQL_HOST'] = 'anoack.mysql.pythonanywhere-services.com'
+app.config['MYSQL_USER'] = 'anoack'
+app.config['MYSQL_PASSWORD'] = 'V*bmEFdi#NN4GF'
+app.config['MYSQL_DB'] = 'anoack$hormone_levels'
 app.config['SESSION_TYPE'] = 'memcached'
 app.config['SECRET_KEY'] = 'mHPEE5K!WnF4@Y'
 
