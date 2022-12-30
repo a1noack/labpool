@@ -15,9 +15,8 @@ limiter = Limiter(
     key_func=get_remote_address
 )
 
-DEV = False
-
 # Configure the app to connect to the MySQL database
+DEV = False  # set to True if you're developing on local laptop
 if DEV:
     app.config['MYSQL_HOST'] = 'localhost'
     app.config['MYSQL_USER'] = 'root'
@@ -85,8 +84,6 @@ def index():
 def get_population_data():
     # load reference ranges
     df = pd.read_csv('static/data/ref_ranges.csv')
-    # else:
-    #     df = pd.read_csv('labpool/static/data/ref_ranges.csv')
     df['mean'] = (df['high'] + df['low']) / 2
     df['std'] = (df['high'] - df['low']) / 4
     n_markers = len(df.marker)
