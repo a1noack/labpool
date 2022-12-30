@@ -1,4 +1,3 @@
-import base64
 from collections import OrderedDict
 from flask import Flask, Response, request, render_template, redirect, make_response, session
 from flask_limiter import Limiter
