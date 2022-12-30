@@ -15,11 +15,19 @@ limiter = Limiter(
     key_func=get_remote_address
 )
 
+DEV = False
+
 # Configure the app to connect to the MySQL database
-app.config['MYSQL_HOST'] = 'anoack.mysql.pythonanywhere-services.com'
-app.config['MYSQL_USER'] = 'anoack'
-app.config['MYSQL_PASSWORD'] = 'V*bmEFdi#NN4GF'
-app.config['MYSQL_DB'] = 'anoack$hormone_levels'
+if DEV:
+    app.config['MYSQL_HOST'] = 'localhost'
+    app.config['MYSQL_USER'] = 'root'
+    app.config['MYSQL_PASSWORD'] = ''
+    app.config['MYSQL_DB'] = 'hormone_levels'
+else:
+    app.config['MYSQL_HOST'] = 'anoack.mysql.pythonanywhere-services.com'
+    app.config['MYSQL_USER'] = 'anoack'
+    app.config['MYSQL_PASSWORD'] = 'V*bmEFdi#NN4GF'
+    app.config['MYSQL_DB'] = 'anoack$hormone_levels'
 app.config['SESSION_TYPE'] = 'memcached'
 app.config['SECRET_KEY'] = 'mHPEE5K!WnF4@Y'
 
@@ -76,7 +84,9 @@ def index():
 
 def get_population_data():
     # load reference ranges
-    df = pd.read_csv('labpool/static/data/ref_ranges.csv')
+    df = pd.read_csv('static/data/ref_ranges.csv')
+    # else:
+    #     df = pd.read_csv('labpool/static/data/ref_ranges.csv')
     df['mean'] = (df['high'] + df['low']) / 2
     df['std'] = (df['high'] - df['low']) / 4
     n_markers = len(df.marker)
