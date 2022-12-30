@@ -1,0 +1,40 @@
+<!-- form.html -->
+<head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <title>Labpool</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3751/3751954.png">
+  <header>
+    <img src="https://cdn-icons-png.flaticon.com/512/3751/3751954.png" alt="Icon" width="80" height="80">
+    <h1>LabPool</h1>
+    <h4>Let's pool our lab results to generate insights!</h4>
+  </header>
+</head>
+<body>
+  <form method="post" id="input_form">
+  </form>
+
+  <div class='element-container'>
+    <div class='element'>
+      Enter your lab results above to see how you compare to other people! <thead>
+      Right now, the graphs are generated with synthetic data using reference ranges found from previous research, but in
+      the future, they will be generated using the data of other Labpool users like you!
+      </thead>
+    </div>
+  </div>
+
+  <script>
+    var form = document.getElementById('input_form');
+    const display_names = {{ display_names|safe }}
+    for (var measure_name in display_names) {
+      var div = document.createElement('div');
+      div.className = 'form-group';
+      div.innerHTML = "<label for="+measure_name+">"+display_names[measure_name]+":</label>"
+      div.innerHTML += "<input type='float' value=0 id="+measure_name+" name="+measure_name+"><br>"
+      form.appendChild(div);
+    }
+    var button = document.createElement('button');
+    button.type = 'submit';
+    button.innerHTML = 'Submit';
+    form.appendChild(button);
+  </script>
+</body>

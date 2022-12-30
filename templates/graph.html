@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Compare</title>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3751/3751954.png">
+  <header>
+    <img src="https://cdn-icons-png.flaticon.com/512/3751/3751954.png" alt="" width="80" height="80">
+    <h1>LabPool</h1>
+    <h4>Where you fall on each graph is colored pink.</h4>
+  </header>
+</head>
+
+<body>
+
+<style type="text/css">
+  .chartBox {
+    width: 80%;
+    margin: auto;
+  }
+
+  h1, h4 {
+    font-family: sans-serif;
+    text-align: center;
+  }
+
+  h1, img {
+    display: inline;
+  }
+
+  header {
+    text-align: center;
+  }
+</style>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  // get the data sent by the server
+  const population_data = {{ population_data|safe }}
+  const user_data = {{ user_data|safe }}
+  const display_names = {{ display_names|safe }}
+
+  // dynamically create the HTML divs to populate
+  var numDivs = Object.keys(population_data).length;
+  console.log('numDivs:', numDivs)
+  var body = document.body;
+  for (var i = 0; i < numDivs; i++) {
+    var div = document.createElement('div');
+    div.className = 'chartBox';
+    div.innerHTML = '';
+    div.innerHTML += '<canvas id="myChart'+i+'"></canvas>';
+
+    body.appendChild(div);
+  }
+
+  // function for finding the index in arr with the closest value
+  function findClosestIdx(arr, value) {
+    var minDiff = Number.MAX_VALUE;
+    var minIndex = -1;
+    for (var i = 0; i < arr.length; i++) {
+      var diff = Math.abs(arr[i] - value);
+      if (diff < minDiff) {
+        minDiff = diff;
+        minIndex = i;
+      }
+    }
+    return minIndex;
+  }
+
+  // graph the values for each measure
+  var element = 0;
+  for (var measure_name in population_data) {
+    console.log(measure_name)
+    const measure = population_data[measure_name]
+    var ctx = document.getElementById('myChart' + element).getContext('2d');
+    element = element + 1;
+
+    // set the color of the user's bar in the bar chart
+    let colors = new Array(measure[0].length).fill('#0000ff');
+    var idx = findClosestIdx(measure[0], user_data[measure_name])
+    colors[idx] = '#ff00ff'
+
+    // create the chart
+    var font_size = 15
+    var mixedChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        datasets: [{
+          data: measure[1],
+          backgroundColor: colors
+        }],
+        labels: measure[0],
+      },
+      options: {
+        plugins: {
+          title: {
+              display: false,
+              text: 'Distribution of '+measure_name+' Values'
+          },
+          legend: {
+            display: false,
+            text: ''
+          }
+        },
+       scales: {
+         x: {
+           title: {
+             display: true,
+             text: display_names[measure_name],
+             font: {
+                 size: font_size,
+             }
+           },
+           ticks: {
+             font: {
+                 size: font_size,
+             }
+           }
+         },
+         y: {
+           title: {
+             display: true,
+             text: 'Density',
+             font: {
+                 size: font_size,
+             }
+           },
+           ticks: {
+             font: {
+                 size: font_size,
+             }
+           }
+         }
+       },
+       fontSize: 30
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

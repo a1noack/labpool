@@ -1,0 +1,80 @@
+* {box-sizing:border-box;} /* global + reset */
+
+h1, h4 {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.element-container{
+   width:100%;
+   max-width: 500px;
+   margin: 0px auto;
+   margin-top: 20px;
+}
+.element{
+   width: 80%;
+   max-width: 500px;
+   height: auto;
+   margin-left: 10%;
+   text-align: center;
+   font-family: sans-serif;
+}
+
+h1, img {
+  display: inline;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: sans-serif;
+}
+
+form {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f8f8f8;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  display: grid;
+  gap: 20px;
+  max-width: 300px;
+  font-family: sans-serif;
+}
+
+field.float {
+    /* it's display: inline by default! */
+    display: grid; /* naturally 1 column and will stack */
+    gap: 4px;
+}
+
+field.float label {
+    font-size: 16px;
+    padding-right: 5px;
+    font-family: sans-serif;
+}
+
+field.float input {
+    font: inherit;
+    padding: 5px 10px;
+    /* text-align: right; */
+}
+
+@media (min-width: 500px) {
+    form {
+        max-width: 500px;
+    }
+
+    field.float {
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 20px;
+    }
+
+    field.float label {
+        white-space: nowrap;
+        font-family: sans-serif;
+    }
+}
